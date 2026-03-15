@@ -1,0 +1,94 @@
+# ==============================================================================
+
+# GEMINI CODE ASSIST EXCLUSION FILE (.aiexclude)
+
+# Purpose: Prevent sensitive, heavy, or irrelevant data from being sent to the LLM
+
+# ==============================================================================
+
+# --- 1. SECRETS & CREDENTIALS (CRITICAL) ---
+
+# Prevent the model from ever seeing plain-text secrets
+
+.env
+.env.*
+*.pem
+*.key
+*.pub
+*.crt
+*.pfx
+secrets.json
+config/database.yml
+config/settings.local.php
+.aws/
+.ssh/
+
+# --- 2. DEPENDENCIES & EXTERNAL LIBRARIES (NOISE) ---
+
+# Prevents "hallucinations" caused by analyzing third-party minified code
+
+node_modules/
+bower_components/
+vendor/
+packages/
+*.Workspaces
+*.sublime-project
+
+# --- 3. BUILD OUTPUT & ARTIFACTS ---
+
+# These files are derived, not source code. Feeding them to Gemini wastes context
+
+dist/
+build/
+out/
+bin/
+obj/
+target/
+*.exe
+*.dll
+*.so
+*.dylib
+*.class
+*.pyc
+
+# --- 4. DATA, LOGS, & TEMPORARIES ---
+
+# Large files that can "choke" the context window or leak user data
+
+*.log
+*.csv
+*.tsv
+*.jsonl
+*.sql
+*.sqlite
+*.db
+tmp/
+temp/
+logs/
+*.bak
+*.swp
+
+# --- 5. MEDIA & BINARIES ---
+
+# Gemini Code Assist focuses on text; binaries provide zero value here
+
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.svg
+*.pdf
+*.mp4
+*.zip
+*.tar.gz
+*.7z
+*.iso
+
+# --- 6. SENSITIVE BUSINESS LOGIC / DOCS ---
+
+# Internal documentation that should remain human-eyes only
+INTERNAL_ONLY/
+LEGAL/
+financials/
+salaries.md
+compliance/
