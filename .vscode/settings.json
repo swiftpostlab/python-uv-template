@@ -1,8 +1,8 @@
 {
-  "editor.codeActionsOnSave": [
-    "source.organizeImports",
-    "source.fixAll",
-  ],
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll": "explicit"
+  },
   "files.eol": "\n",
   "files.insertFinalNewline": true,
   "editor.formatOnSave": true,
