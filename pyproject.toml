@@ -5,16 +5,11 @@ description = ""
 authors = [{ name = "Name Surname", email = "email@example.com" }]
 license = { text = "MIT" }
 readme = "README.md"
-requires-python = ">=3.13,<4.0"
+requires-python = ">=3.14,<4.0"
 dependencies = []
 
 [dependency-groups]
-dev = [
-    "poethepoet>=0.34.0",
-    "pytest>=9.0",
-    "black>=25.1.0",
-    "pyright>=1.1.400",
-]
+dev = ["poethepoet>=0.34.0", "pytest>=9.0", "black>=25.1.0", "pyright>=1.1.400"]
 
 [build-system]
 requires = ["hatchling"]
@@ -30,7 +25,7 @@ testpaths = ["src", "scripts"]
 python_files = ["*_test.py"]
 
 [tool.pyright]
-pythonVersion = "3.13"
+pythonVersion = "3.14"
 typeCheckingMode = "strict"
 useLibraryCodeForTypes = true
 exclude = ["**/__pycache__", "src/typings"]
