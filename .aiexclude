@@ -29,6 +29,7 @@ config/settings.local.php
 
 node_modules/
 bower_components/
+.venv
 vendor/
 packages/
 *.Workspaces
@@ -44,6 +45,11 @@ out/
 bin/
 obj/
 target/
+**/**/.pytest_cache
+**/**/__pycache__/
+*.egg-info/
+*.egg
+*.whl
 *.exe
 *.dll
 *.so
@@ -92,3 +98,34 @@ LEGAL/
 financials/
 salaries.md
 compliance/
+
+# --- 7. PERFORMANCE BOTTLENECKS (MR WOLF ADDITIONS) ---
+
+# Version control (Massive amount of tiny files)
+.git/
+.svn/
+
+# Lockfiles (Massive single-file line counts)
+package-lock.json
+yarn.lock
+uv.lock
+pnpm-lock.yaml
+poetry.lock
+Gemfile.lock
+
+# Framework caches and hidden build tools
+.next/
+.nuxt/
+.cache/
+.angular/
+.nx/
+.svelte-kit/
+.expo/
+
+# IDE specific hidden folders
+.vscode/
+.idea/
+
+# Additional Virtual Env naming conventions
+venv/
+env/
