@@ -129,3 +129,15 @@ Gemfile.lock
 # Additional Virtual Env naming conventions
 venv/
 env/
+
+# --- 8. PYTHON-SPECIFIC ARTIFACTS ---
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+htmlcov/
+site/
+.coverage
+__pypackages__/
+.pyre/
+.pytype/
