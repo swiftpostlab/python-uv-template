@@ -1,15 +1,10 @@
 # ==============================================================================
-
-# GEMINI CODE ASSIST EXCLUSION FILE (.aiexclude)
-
+# AI EXCLUSION FILE
 # Purpose: Prevent sensitive, heavy, or irrelevant data from being sent to the LLM
-
 # ==============================================================================
 
 # --- 1. SECRETS & CREDENTIALS (CRITICAL) ---
-
 # Prevent the model from ever seeing plain-text secrets
-
 .env
 .env.*
 *.pem
@@ -24,37 +19,19 @@ config/settings.local.php
 .ssh/
 
 # --- 2. DEPENDENCIES & EXTERNAL LIBRARIES (NOISE) ---
-
 # Prevents "hallucinations" caused by analyzing third-party minified code
-
-
-
 .venv
-
 *.Workspaces
-
 *.sublime-project
 
-
-
 # --- 3. BUILD OUTPUT & ARTIFACTS ---
-
 # These files are derived, not source code. Feeding them to Gemini wastes context
-
 # Most build artifacts are covered by .gitignore, but we keep a few explicit ones for performance.
-
-
-
 **/**/.pytest_cache
-
 **/**/__pycache__/
 
-
-
 # --- 4. DATA, LOGS, & TEMPORARIES ---
-
 # Large files that can "choke" the context window or leak user data
-
 *.log
 *.csv
 *.tsv
@@ -69,9 +46,7 @@ logs/
 *.swp
 
 # --- 5. MEDIA & BINARIES ---
-
-# Gemini Code Assist focuses on text; binaries provide zero value here
-
+# Most AI assistants focus on text; binaries may create noise and provide no value
 *.jpg
 *.jpeg
 *.png
@@ -85,7 +60,6 @@ logs/
 *.iso
 
 # --- 6. SENSITIVE BUSINESS LOGIC / DOCS ---
-
 # Internal documentation that should remain human-eyes only
 INTERNAL_ONLY/
 LEGAL/
@@ -94,7 +68,6 @@ salaries.md
 compliance/
 
 # --- 7. PERFORMANCE BOTTLENECKS (MR WOLF ADDITIONS) ---
-
 # Version control (Massive amount of tiny files)
 .git/
 .svn/
