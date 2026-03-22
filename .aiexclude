@@ -3,6 +3,9 @@
 # Purpose: Prevent sensitive, heavy, or irrelevant data from being sent to the LLM
 # ==============================================================================
 
+# --- 0. gitignored files to actually add back ---
+^current
+
 # --- 1. SECRETS & CREDENTIALS (CRITICAL) ---
 # Prevent the model from ever seeing plain-text secrets
 .env
