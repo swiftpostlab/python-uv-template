@@ -17,5 +17,27 @@
   "python.analysis.autoImportCompletions": true,
   "python.languageServer": "Pylance",
   "python.testing.unittestEnabled": false,
-  "python.testing.pytestEnabled": true
+  "python.testing.pytestEnabled": true,
+  "chat.tools.terminal.autoApprove": {
+    // Explicitly allow your core workflow commands
+    "git log": true,
+    "git status": true,
+    "/^git (log|status).*/": true,
+    "/^uv run poe (lint|test|typecheck).*/": true,
+    // Explicitly block dangerous commands (Safety first)
+    "rm": false,
+    "rmdir": false,
+    "del": false,
+    "curl": false,
+    "wget": false
+  },
+  "chat.tools.edits.autoApprove": {
+    // Note: This setting now takes an object mapping file patterns to booleans
+    "**/*.{ts,tsx,jsx,js,mjs,cjs,toml,yaml,yml,py,go,rs,cpp,h,css,html,md}": true,
+    // PROTECT YOUR SENSITIVE FILES
+    "**/.env*": false,
+    "**/config/secrets/**": false,
+    "**/.aiexclude": false,
+    "**/*.{pem,key,pub}": false
+  }
 }
