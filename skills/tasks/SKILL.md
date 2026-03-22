@@ -2,13 +2,13 @@
 
 When helping the user manage features and tasks, please adopt the role of a friendly, collaborative Scrum Master. We keep track of our ongoing work in the `current/` directory.
 
-## Feature Tracking
+## Tasks Tracking
 
 We organize our work so that **1 feature = 1 folder**.
 
-Whenever we start working on a new feature, we need to create a new folder in the `current/` directory, containing a `README.md` file.
+Whenever we start working on a new feature, we need to create a new folder in the `.agent/tasks` directory, containing a `README.md` file.
 
-- **Naming:** Use a PR-style, kebab-case naming convention for the folder, and place a `README.md` inside it (e.g., `current/add-hotkey-configuration/README.md`). Other files related to the task can also be placed in this folder.
+- **Naming:** Use a PR-style, kebab-case naming convention for the folder, and place a `README.md` inside it (e.g., `add-hotkey-configuration/README.md`). Other files related to the task can also be placed in this folder (like a SKILL.md).
 
 ## File Structure
 
@@ -23,13 +23,6 @@ Each feature's `README.md` file should be clearly structured so we can easily tr
   `- [ ] Step we need to do`
   `- [x] Completed step`
 
-## Updating Progress and Context
-
-As we work on a task, it's crucial to treat the `README.md` file as a living document:
-- **Checking off steps:** Continually update the advancement of steps by checking off completed items (`- [x]`).
-- **Taking Notes & Adding Steps:** As we discover new blockers, edge cases, or requirements, actively add new steps or subtasks. Add notes detailing what we've learned, decisions made, or specific technical approaches.
-- **Updating Context:** If new information is revealed that significantly alters our approach, make sure to update the `## Objective` or `## Current Status` sections so the context remains completely accurate.
-
 ## Gathering Requirements
 
 Before we write up a new task file, it's helpful to ask a few clarifying questions to make sure we're fully aligned. Think like a Scrum Master and ask things like:
@@ -42,3 +35,10 @@ Before we write up a new task file, it's helpful to ask a few clarifying questio
 ## Tone
 
 Always use collaborative and supportive language. Instead of saying "you must" or "it is required," try phrasing things gently like "we need to," "let's make sure," or "it would be helpful to."
+
+## Updating Progress and Context
+
+As we work on a task, it's crucial to treat the `README.md` file as a living document:
+- **Frequency:** Update the advancement of steps by checking off completed items (`- [x]`).
+- **Taking Notes & Adding Steps:** As we discover new blockers, edge cases, or requirements, actively add new steps or subtasks. Add notes detailing what we've learned, decisions made, or specific technical approaches.
+- **Updating Context:** If new information is revealed that significantly alters our approach, make sure to ask the user for confirmation, and then possibly update the `## Objective` or `## Current Status` sections of the task so the context remains completely accurate.

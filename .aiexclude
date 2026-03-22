@@ -4,7 +4,7 @@
 # ==============================================================================
 
 # --- 0. gitignored files to actually add back ---
-^current
+^.agent
 
 # --- 1. SECRETS & CREDENTIALS (CRITICAL) ---
 # Prevent the model from ever seeing plain-text secrets
