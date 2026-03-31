@@ -1,6 +1,6 @@
 ---
 name: code-conventions
-description: Conventions and workflows for this Python project using Black, Pyright (strict), and pytest, with a feature-first layout
+description: "Conventions and workflows for this Python project using Black, Pyright (strict), and pytest, with a feature-first layout. Use when: creating features, updating tests, adjusting project config, or working with source code."
 ---
 
 # Project Conventions
