@@ -31,6 +31,8 @@ Ensure that the instructions are applicable regardless of the AI provider or mod
  - .github\copilot-instructions.md
  - GEMINI.md
 
+The content of these files should be consistent with each other and with the skills, so that the AI can rely on them regardless of the platform it is running on.
+
 ## Examples of Skill Setups
 
 ### 1. Documentation Skill (`docs-convention`)

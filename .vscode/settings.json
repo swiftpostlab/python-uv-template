@@ -8,6 +8,7 @@
   "editor.formatOnSave": true,
   "editor.autoIndent": "advanced",
   "editor.guides.indentation": true,
+  "editor.tabSize": 2,
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.tabSize": 4
@@ -38,6 +39,18 @@
     "**/.env*": false,
     "**/config/secrets/**": false,
     "**/.aiexclude": false,
-    "**/*.{pem,key,pub}": false
+    "**/*.{pem,key,pub}": false,
+    "**/.agent/tasks/**": true
+  },
+  "files.exclude": {
+    "**/node_modules": true,
+    ".venv": true,
+    "venv": true,
+    "__pycache__": true,
+    ".env": true,
+    ".env.*": true,
+    "dist": true,
+    "build": true,
+    "**/.agent": false
   }
 }

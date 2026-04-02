@@ -43,9 +43,14 @@ reportUnnecessaryTypeIgnoreComment = "warning"
 main = "my_project.main:main"
 
 [tool.poe.tasks]
-test = "python -m pytest"
 lint = "python -m black --check ./src"
 lint-fix = "python -m black ./src"
 typecheck = "python -m pyright ./src"
-
-update-from-upstream = "python scripts/update_from_upstream.py"
+test = "python -m pytest"
+# --- AI Secure Parameterized Tasks ---
+lint-filter = { help = "Run linter and filter output", shell = "python -m black --check ./src | grep -i -E ${filter_term}", args = [
+  { name = "filter_term", positional = true, required = true },
+] }
+typecheck-filter = { help = "Run typechecker and filter output", shell = "python -m pyright ./src | grep -i -E ${filter_term}", args = [
+  { name = "filter_term", positional = true, required = true },
+] }
