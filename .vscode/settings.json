@@ -40,7 +40,7 @@
     "**/config/secrets/**": false,
     "**/.aiexclude": false,
     "**/*.{pem,key,pub}": false,
-    "**/.agent/tasks/**": true
+    "**/.agents/tasks/**": true
   },
   "files.exclude": {
     "**/node_modules": true,

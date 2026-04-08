@@ -23,7 +23,7 @@ I am an adult and can bear being told I am wrong. If something in my line of tho
 
 ## Project Skills
 
-All project skills are located in `.github/skills/` and automatically load in Copilot based on context and trigger phrases.
+All project skills are located in `.agents/skills/` and automatically load in Copilot based on context and trigger phrases.
 
 ### Available Skills
 
@@ -74,4 +74,4 @@ Always run python related commands trough `uv`. If it's unavailable, stop and as
 
 - [pyproject.toml](../pyproject.toml) — Project configuration
 - [README.md](../README.md) — Getting started guide
-- Individual skill files in `.github/skills/` for detailed guidance
+- Individual skill files in `.agents/skills/` for detailed guidance

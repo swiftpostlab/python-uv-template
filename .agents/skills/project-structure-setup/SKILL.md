@@ -40,7 +40,7 @@ Guide understanding of the project's physical organization, central configuratio
 | `src/my_project/` | Main package source code. Organize using feature-first approach: each feature gets its own subdirectory. |
 | `src/my_project/<feature>/` | Feature-specific code and tests, kept together. Tests use `*_test.py` naming. |
 | `scripts/` | Utility scripts for maintenance, automation, or testing. Registered as tasks in `pyproject.toml`. |
-| `.github/skills/` | Custom agent workflow skills (loaded by GitHub Copilot on-demand). Each skill in its own folder with `SKILL.md`. |
+| `.agents/skills/` | Custom agent workflow skills (loaded by GitHub Copilot on-demand). Each skill in its own folder with `SKILL.md`. |
 | `.github/` | Project-wide configuration including copilot instructions and agent definitions. |
 
 ## pyproject.toml: The Configuration Hub
