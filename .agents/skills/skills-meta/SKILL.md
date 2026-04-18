@@ -16,6 +16,33 @@ like (but not limited to) Copilot, OpenAI, Antropic, Gemini AI, Ollama.
 - Include a "When to use this skill" section to help the AI determine the relevance of the instructions.
 - Provide concrete examples of file structures or code snippets to minimize ambiguity.
 
+## Values
+
+- Prefer simplicity over cleverness.
+- Prefer maintainability over short-term convenience.
+- Keep skill guidance easy to find and audit.
+
+## Consolidation Guidance
+
+- When multiple skills duplicate or conflict, consolidate into a single owning skill and keep a short routing note in top-level files.
+- Use the `tool-consolidate-skills` pattern (see .agents/skills/tool-consolidate-skills/SKILL.md) to guide large-scale consolidation and ensure the authoritative location is clear.
+
+## Skill folder structure
+
+Each skill lives in its own folder under `.agents/skills/` and should be organized for discoverability and maintainability:
+
+- `SKILL.md` (required): the main skill doc containing front-matter (name, description) and the guidance. Keep this short and route to subfiles when needed.
+- `references/` (optional): longer reference material, checklists, templates, or examples. Use separate markdown files for large examples.
+- `assets/` (optional): supporting files such as images, diagrams, or example payloads.
+- `scripts/` (optional): small helper scripts or transformation utilities used by the skill. Keep runnable code minimal and well-tested.
+- `tests/` (optional): unit tests that validate examples or code shipped with the skill.
+
+Recommendations:
+
+- Keep `SKILL.md` compact — prefer a one-screen summary with links to `references/` for long examples.
+- Use clear front-matter keys (`name`, `description`, `argument-hint`) to help discovery.
+- When moving content between skills, use `tool-consolidate-skills` to record what moved and why.
+
 ## Communication Guidelines
 
 - Provide direct, unfiltered feedback. The user is an adult and prefers the truth now over complaints later.
