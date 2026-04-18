@@ -25,23 +25,16 @@
   ],
   "terminalAutoApprove": {
     "/^git (log|status).*$/": true,
-    "/^yarn (lint|lint:ci|typecheck|typecheck:ci|sync:ai|sync:ai:import)$/": true,
-    "/^yarn turbo (lint|typecheck) --ui stream$/": true,
-    "/^node --experimental-strip-types scripts/sync-ai-ignores\\.mts$/": {
-      "approve": true,
-      "matchCommandLine": true
-    },
-    "yarn install": true,
-    "yarn install --network-timeout 100000": true,
+    "/^uv run poe (lint|lint-fix|typecheck|test)$/": true,
+    "/^uv run (sync-ai-policy|sync-ai-policy-import-vscode)$/": true,
     "rm": false,
     "rmdir": false,
     "del": false,
     "curl": false,
-    "wget": false,
-    "/^yarn (lint|lint:ci|typecheck|typecheck:ci|sync:ai)$/": true
+    "wget": false
   },
   "editAutoApprove": {
-    "**/*.{ts,tsx,js,mjs,mts,json,yml,yaml,css,md}": true,
+    "**/*.{py,json,yml,yaml,css,md}": true,
     "**/.env*": false,
     "**/secrets/**": false,
     "**/.aiexclude": false,

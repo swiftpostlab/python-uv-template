@@ -1,113 +1,29 @@
-# ==============================================================================
+# ============================================================================== 
 # AI EXCLUSION FILE
-# Purpose: Prevent sensitive, heavy, or irrelevant data from being sent to the LLM
+# Generated from .ai-policy.json
+# Protected files are sensitive; excluded files are mostly noise or generated output.
 # ==============================================================================
 
-# --- 0. gitignored files to actually add back ---
-^.agent
-
-# --- 1. SECRETS & CREDENTIALS (CRITICAL) ---
-# Prevent the model from ever seeing plain-text secrets
-.env
-.env.*
+# --- 1. Protected files ---
+*.env
+*.env.*
 *.pem
 *.key
 *.pub
-*.crt
-*.pfx
-secrets.json
-config/database.yml
-config/settings.local.php
-.aws/
-.ssh/
+credentials.json
+secrets/
+internal-config.yml
 
-# --- 2. DEPENDENCIES & EXTERNAL LIBRARIES (NOISE) ---
-# Prevents "hallucinations" caused by analyzing third-party minified code
-.venv
-*.Workspaces
-*.sublime-project
-
-# --- 3. BUILD OUTPUT & ARTIFACTS ---
-# These files are derived, not source code. Feeding them to Gemini wastes context
-# Most build artifacts are covered by .gitignore, but we keep a few explicit ones for performance.
-**/**/.pytest_cache
-**/**/__pycache__/
-
-# --- 4. DATA, LOGS, & TEMPORARIES ---
-# Large files that can "choke" the context window or leak user data
+# --- 2. Excluded noise / generated output ---
+**/node_modules/
+**/.next/
+dist/
+build/
+out/
 *.log
-*.csv
-*.tsv
-*.jsonl
-*.sql
-*.sqlite
-*.db
+*.tmp
+*.bak
 tmp/
 temp/
 logs/
-*.bak
-*.swp
-
-# --- 5. MEDIA & BINARIES ---
-# Most AI assistants focus on text; binaries may create noise and provide no value
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.svg
-*.pdf
-*.mp4
-*.zip
-*.tar.gz
-*.7z
-*.iso
-
-# --- 6. SENSITIVE BUSINESS LOGIC / DOCS ---
-# Internal documentation that should remain human-eyes only
-INTERNAL_ONLY/
-LEGAL/
-financials/
-salaries.md
-compliance/
-
-# --- 7. PERFORMANCE BOTTLENECKS (MR WOLF ADDITIONS) ---
-# Version control (Massive amount of tiny files)
-.git/
-.svn/
-
-# Lockfiles (Massive single-file line counts)
-package-lock.json
-yarn.lock
-uv.lock
-pnpm-lock.yaml
-poetry.lock
-Gemfile.lock
-
-# Framework caches and hidden build tools
-.next/
-.nuxt/
-.cache/
-.angular/
-.nx/
-.svelte-kit/
-.expo/
-
-# IDE specific hidden folders
-.vscode/
-.idea/
-
-# Additional Virtual Env naming conventions
-venv/
-env/
-
-# --- 8. PYTHON-SPECIFIC ARTIFACTS ---
-.mypy_cache/
-.ruff_cache/
-.tox/
-.nox/
-htmlcov/
-site/
-.coverage
-__pypackages__/
-.pyre/
-.pytype/
+.turbo/

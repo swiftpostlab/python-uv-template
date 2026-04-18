@@ -79,10 +79,11 @@ Help the agent work within this project in a way that respects its structure, ty
 - Treat Pyright strict mode seriously:
   - Fix type issues by improving annotations, adding type guards, or restructuring code.
   - Prefer explicit checks and type guards (e.g. `isinstance` checks) over `# type: ignore`.
-  - Only use `# type: ignore` as a last resort, with a short comment explaining why.
+  - Treat `# type: ignore` as highly discouraged. Use it only as a last resort, with a short comment explaining why the type system cannot express the case cleanly.
 - For third-party libraries without type annotations:
-  - Prefer installing appropriate type stub packages (e.g. from `types-…` distributions) when available.
-  - If no stubs exist, consider creating minimal stubs in `src/typings` for the used parts of the API.
+  - Best option: install appropriate type stub packages first, usually from common `types-...` distributions when available.
+  - Fallback option: create minimal local stubs in `src/typings` that cover only the used surface of the library API.
+  - Do both of those before falling back to `# type: ignore`.
 
 ## CLI and scripts
 
