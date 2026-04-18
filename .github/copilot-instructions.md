@@ -55,6 +55,8 @@ When working on this project:
 - `uv run poe lint` — Check Black formatting
 - `uv run poe lint-fix` — Auto-format with Black
 - `uv run poe typecheck` — Run Pyright strict mode
+ - `uv run sync-ai-policy` — Regenerate agent config from `.ai-policy.json`
+ - `uv run sync-ai-policy-import-vscode` — Import VS Code approvals into policy, then sync
 
 ## Key Tools
 

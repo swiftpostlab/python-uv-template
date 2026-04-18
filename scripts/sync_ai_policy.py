@@ -1,4 +1,9 @@
-"""Synchronize the shared AI policy into agent-specific config files."""
+"""Synchronize the shared AI policy into agent-specific config files.
+
+Usage:
+- Recommended (installed entrypoint): `uv run sync-ai-policy`
+- Import VS Code approvals: `uv run sync-ai-policy-import-vscode`
+"""
 
 from __future__ import annotations
 

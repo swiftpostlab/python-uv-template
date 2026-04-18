@@ -39,7 +39,7 @@ Guide understanding of the project's physical organization, central configuratio
 |-----------|---------|
 | `src/my_project/` | Main package source code. Organize using feature-first approach: each feature gets its own subdirectory. |
 | `src/my_project/<feature>/` | Feature-specific code and tests, kept together. Tests use `*_test.py` naming. |
-| `scripts/` | Utility scripts for maintenance, automation, or testing. Registered as tasks in `pyproject.toml`. |
+| `scripts/` | Utility scripts for maintenance, automation, or testing. They may be run directly or exposed through entrypoints when the repo chooses. |
 | `.agents/skills/` | Custom agent workflow skills (loaded by GitHub Copilot on-demand). Each skill in its own folder with `SKILL.md`. |
 | `.github/` | Project-wide configuration including copilot instructions and agent definitions. |
 
@@ -94,7 +94,7 @@ typecheck = "python -m pyright ./src"
 - Complex shell orchestration
 - Commands that shouldn't be distributed with the package
 
-**When NOT to use:** If the command is a simple Python function, define it in `[project.scripts]` instead.
+**When NOT to use:** If the command should be invoked as an installed Python entrypoint, define it in `[project.scripts]` instead.
 
 #### `[tool.pyright]`
 Type checker configuration in **strict mode**:
@@ -115,10 +115,10 @@ Test framework configuration:
 Build configuration for packaging:
 ```toml
 [tool.hatch.build.targets.wheel]
-packages = ["src/my_project"]
+packages = ["src/my_project", "scripts"]
 ```
 
-Tells the build system which folder contains the package to distribute.
+Tells the build system which folders are included in the wheel when installed entrypoints need code from them.
 
 ## Tool Command Reference
 
@@ -128,6 +128,8 @@ Tells the build system which folder contains the package to distribute.
 | **Black** | `uv run poe lint` | Poe task | Check code formatting |
 | **Black** | `uv run poe lint-fix` | Poe task | Auto-format code |
 | **Pyright** | `uv run poe typecheck` | Poe task | Type-check in strict mode |
+| **AI policy sync** | `uv run sync-ai-policy` | Project script | Regenerate agent config from `.ai-policy.json` |
+| **AI policy import** | `uv run sync-ai-policy-import-vscode` | Project script | Import VS Code approvals into policy, then sync |
 | **Update script** | `uv run poe update-from-upstream` | Poe task | Fetch updates from template |
 
 All commands use `uv run` to execute in the managed environment.
@@ -163,7 +165,7 @@ Only commit after all checks pass.
 | New feature code | `src/my_project/<feature_name>/<feature_name>.py` | Keeps features self-contained and discoverable |
 | Tests for a feature | `src/my_project/<feature_name>/<feature_name>_test.py` (same folder) | Collocates test with code for easy maintenance |
 | Shared utilities | `src/my_project/utils/<category>/<tool>.py` | Consolidates reusable code; doesn't clutter feature folders |
-| Maintenance script | `scripts/<script_name>.py` | Separate from package code; registered in `[tool.poe.tasks]` |
+| Maintenance script | `scripts/<script_name>.py` | Separate from package code; can be run directly or exposed through `[project.scripts]` if the repo wants an installed command |
 | CLI command (user-facing) | `src/my_project/<feature>/cli.py`, register in `[project.scripts]` | Gets installed as a shell command when package is distributed |
 | Configuration file | Top-level in repo, reference from `pyproject.toml` | Makes it discoverable and avoids duplication |
 | Type stubs (for untyped libraries) | `src/typings/<library_name>.pyi` | Isolated from main code; Pyright reads this directory |
@@ -196,6 +198,8 @@ Only commit after all checks pass.
    ```
 3. Reinstall: `uv sync`
 4. Run: `my-command` (available as shell command)
+
+If the implementation intentionally stays in `scripts/`, the entrypoint may target `scripts.<module>:main` instead, provided the wheel includes `scripts`.
 
 ## See Also
 

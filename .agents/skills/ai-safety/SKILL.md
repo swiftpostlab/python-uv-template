@@ -58,17 +58,16 @@ The `.vscode/settings.json` approach maps protected patterns to a `copilot-restr
 2. Put sensitive patterns in `protectedFiles`.
 3. Put noisy/generated output in `excludedFiles`.
 4. Update top-level `terminalAutoApprove` and `editAutoApprove` rules when needed.
-5. Run `uv run poe sync-ai-policy` to propagate changes.
+5. Run `uv run sync-ai-policy` to propagate changes.
 6. Commit all generated files (`.aiexclude`, `.claude/settings.json`, `.vscode/settings.json`).
 
-If you want to promote approvals that VS Code added interactively after the user greenlit a command, run `uv run poe sync-ai-policy-import-vscode`. That imports the current VS Code terminal/edit approvals into `.ai-policy.json` first, then performs the normal sync.
+If you want to promote approvals that VS Code added interactively after the user greenlit a command, run `uv run sync-ai-policy-import-vscode`. That imports the current VS Code terminal/edit approvals into `.ai-policy.json` first, then performs the normal sync.
 
 ## Sync Script
 
 **Location:** `scripts/sync_ai_policy.py`
-**Run (local):** `python scripts/sync_ai_policy.py`  
-**Run (recommended):** `uv run poe sync-ai-policy`
-**Import VS Code approvals:** `uv run poe sync-ai-policy-import-vscode` (merges current VS Code approvals into `.ai-policy.json` then syncs)
+**Run (recommended):** `uv run sync-ai-policy`
+**Import VS Code approvals:** `uv run sync-ai-policy-import-vscode` (merges current VS Code approvals into `.ai-policy.json` then syncs)
 **Requires:** Python >= 3.14
 
 The script reads `.ai-policy.json` and writes:
@@ -82,6 +81,6 @@ When syncing `.claude/settings.json` and `.vscode/settings.json`, replace the po
 
 Keep this tool as a standalone repository script under `scripts/` unless the user explicitly asks to move it.
 
-Prefer `[project.scripts]` for Python entrypoints whenever the command belongs to the installed project. Use Poe as the fallback for repository scripts like this one that intentionally stay outside `src/`.
+This repository intentionally keeps the implementation in `scripts/` while exposing the supported command through `[project.scripts]`.
 
-Use the `--import-vscode` flag (exposed via the `sync-ai-policy-import-vscode` Poe task) to pull the current VS Code approval maps into `.ai-policy.json` first.
+Use the `--import-vscode` flag (also exposed via the `sync-ai-policy-import-vscode` entrypoint) to pull the current VS Code approval maps into `.ai-policy.json` first.

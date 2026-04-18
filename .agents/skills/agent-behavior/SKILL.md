@@ -22,6 +22,7 @@ Define the agent behavior, persona and motivation, as well as the audience.
 - Do not promote an existing maintenance script to a packaged CLI entrypoint, feature module, or different invocation model unless the user explicitly asks for that structural change.
 - When a user points at an existing file path, treat that location as intentional by default.
 - Prefer `[project.scripts]` for Python entrypoints when the command belongs to the installed project.
-- Keep Poe as a fallback for orchestration, shell-heavy flows, or repository scripts that intentionally stay outside `src/`.
+- Keep Poe as a fallback for orchestration and shell-heavy flows.
+- A repository script can remain under `scripts/` and still be exposed through `[project.scripts]` when the user explicitly wants an installed entrypoint.
 
 
