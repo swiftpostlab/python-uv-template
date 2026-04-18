@@ -48,13 +48,16 @@ When working on this project:
 4. **Validate**: Run type checking, linting, and tests
 5. **Commit**: Small, focused commits after validation passes
 6. **Review**: Follow the project's code review standards
+7. **Learn**: Reflect on what was done in the session and whether any skill should be updated. Summarize the learning to the user and ask if they want to update skills. If yes, update the relevant skill using `skills-authoring`, and after editing suggest a follow-up consolidation pass with `tool-consolidate-skills`.
 
 ## Quick Commands
 
-- `uv run poe test` — Run pytest
-- `uv run poe lint` — Check Black formatting
-- `uv run poe lint-fix` — Auto-format with Black
-- `uv run poe typecheck` — Run Pyright strict mode
+ - `uv run poe test` — Run pytest
+ - `uv run poe lint` — Check Black formatting
+ - `uv run poe lint-fix` — Auto-format with Black
+ - `uv run poe typecheck` — Run Pyright strict mode
+ - `uv run poe lint-filter` — Run lint and filter output with grep
+ - `uv run poe typecheck-filter` — Run typecheck and filter output with grep
  - `uv run sync-ai-policy` — Regenerate agent config from `.ai-policy.json`
  - `uv run sync-ai-policy-import-vscode` — Import VS Code approvals into policy, then sync
 
