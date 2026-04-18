@@ -26,7 +26,7 @@
   "terminalAutoApprove": {
     "/^git (log|status).*$/": true,
     "/^uv run poe (lint|lint-fix|typecheck|test)$/": true,
-    "/^uv run (sync-ai-policy|sync-ai-policy-import-vscode)$/": true,
+    "/^uv run poe (sync-ai-policy|sync-ai-policy-import-vscode)$/": true,
     "rm": false,
     "rmdir": false,
     "del": false,

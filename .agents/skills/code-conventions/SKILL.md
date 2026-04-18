@@ -9,6 +9,12 @@ description: "Conventions and workflows for this Python project using Black, Pyr
 
 Help the agent work within this project in a way that respects its structure, typing rules, and tooling, so the project stays clean and maintainable.
 
+## Values
+
+- Prefer simplicity over cleverness.
+- Prefer maintainability over short-term convenience.
+- Prefer explicit structure and predictable behavior over hidden magic.
+
 ## Project context
 
 - Language: Python
@@ -88,12 +94,14 @@ Help the agent work within this project in a way that respects its structure, ty
 ## CLI and scripts
 
 - When a file is meant to be run from the command line:
-  - Do **not** use the `if __name__ == "__main__":` pattern.
-  - Instead, expose a clear function (e.g. `main()`) inside a module.
-  - Register this function in `[project.scripts]` so it becomes a CLI entrypoint.
+  - Prefer `[project.scripts]` for Python entrypoints whenever the command belongs to the installed project.
+  - For packaged application code under `src/PACKAGE_NAME`, expose a clear function (e.g. `main()`) and register it in `[project.scripts]`.
+  - For standalone maintenance or repository scripts that already live in `scripts/`, keep them there unless the user explicitly asks to promote them into `src/PACKAGE_NAME`.
+  - For those standalone `scripts/` utilities, `if __name__ == "__main__":` is acceptable.
+  - Ask explicitly before moving an existing script into `src/PACKAGE_NAME` or changing how the user runs it.
 - If the script is not simple Python or better modeled as a task:
   - Add it under `[tool.poe.tasks]` with an appropriate name.
-  - Prefer Poe tasks for orchestration or shell-like commands, and Hatch scripts for Python entrypoints.
+  - Keep Poe as a fallback for orchestration or shell-like commands that do not fit cleanly into `[project.scripts]`.
 
 ## Testing conventions
 
@@ -118,5 +126,6 @@ When proposing changes, the agent should keep these commands in mind:
 ## General guidance for the agent
 
 - Prefer small, incremental changes aligned with the feature-first layout.
+- Prefer the simplest change that keeps the code easy to maintain.
 - Maintain readability and consistency over cleverness.
 - When in doubt about structure or naming, favor clarity and alignment with these conventions.

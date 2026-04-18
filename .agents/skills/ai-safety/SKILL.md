@@ -9,6 +9,12 @@ description: "AI policy, protected file access, and exclusion sync. Use when: mo
 
 Document how AI agents are prevented from accessing sensitive files, how noisy/generated files are excluded from context, and how the policy is synced across agent-specific configurations.
 
+## Values
+
+- Prefer simplicity over cleverness.
+- Prefer maintainability over short-term convenience.
+- Keep policy synchronization deterministic and easy to audit.
+
 ## When to use this skill
 
 - Adding or modifying protected or excluded file patterns.
@@ -52,18 +58,17 @@ The `.vscode/settings.json` approach maps protected patterns to a `copilot-restr
 2. Put sensitive patterns in `protectedFiles`.
 3. Put noisy/generated output in `excludedFiles`.
 4. Update top-level `terminalAutoApprove` and `editAutoApprove` rules when needed.
-5. Run `uv run sync-ai-policy` to propagate changes.
+5. Run `uv run poe sync-ai-policy` to propagate changes.
 6. Commit all generated files (`.aiexclude`, `.claude/settings.json`, `.vscode/settings.json`).
 
-If you want to promote approvals that VS Code added interactively after the user greenlit a command, run `uv run sync-ai-policy-import-vscode`. That imports the current VS Code terminal/edit approvals into `.ai-policy.json` first, then performs the normal sync.
+If you want to promote approvals that VS Code added interactively after the user greenlit a command, run `uv run poe sync-ai-policy-import-vscode`. That imports the current VS Code terminal/edit approvals into `.ai-policy.json` first, then performs the normal sync.
 
 ## Sync Script
 
-**Location:** `src/my_project/sync_ai_policy.py`
-**Compatibility wrapper:** `scripts/sync_ai_policy.py`
+**Location:** `scripts/sync_ai_policy.py`
 **Run (local):** `python scripts/sync_ai_policy.py`  
-**Run (recommended):** `uv run sync-ai-policy`
-**Import VS Code approvals:** `uv run sync-ai-policy-import-vscode` (merges current VS Code approvals into `.ai-policy.json` then syncs)
+**Run (recommended):** `uv run poe sync-ai-policy`
+**Import VS Code approvals:** `uv run poe sync-ai-policy-import-vscode` (merges current VS Code approvals into `.ai-policy.json` then syncs)
 **Requires:** Python >= 3.14
 
 The script reads `.ai-policy.json` and writes:
@@ -73,4 +78,10 @@ The script reads `.ai-policy.json` and writes:
 
 The command/edit policy is kept at the top level of `.ai-policy.json`. The script does not carry built-in approval defaults. It writes the managed approval sections from the policy so the generated files stay aligned with the source of truth instead of accumulating stale template-era rules.
 
-Use the `--import-vscode` flag (exposed via the `sync-ai-policy-import-vscode` project script) to pull the current VS Code approval maps into `.ai-policy.json` first.
+When syncing `.claude/settings.json` and `.vscode/settings.json`, replace the policy-managed sections deterministically instead of appending to them. Removing an item from `.ai-policy.json` must remove the generated output on the next sync as well, while unrelated settings remain preserved where the script can distinguish them.
+
+Keep this tool as a standalone repository script under `scripts/` unless the user explicitly asks to move it.
+
+Prefer `[project.scripts]` for Python entrypoints whenever the command belongs to the installed project. Use Poe as the fallback for repository scripts like this one that intentionally stay outside `src/`.
+
+Use the `--import-vscode` flag (exposed via the `sync-ai-policy-import-vscode` Poe task) to pull the current VS Code approval maps into `.ai-policy.json` first.

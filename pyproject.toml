@@ -9,7 +9,13 @@ requires-python = ">=3.14,<4.0"
 dependencies = []
 
 [dependency-groups]
-dev = ["poethepoet>=0.34.0", "pytest>=9.0", "black>=25.1.0", "pyright>=1.1.400", "json5>=0.9"]
+dev = [
+  "poethepoet>=0.34.0",
+  "pytest>=9.0",
+  "black>=25.1.0",
+  "pyright>=1.1.400",
+  "json5>=0.9",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -41,14 +47,14 @@ reportUnnecessaryTypeIgnoreComment = "warning"
 
 [project.scripts]
 main = "my_project.main:main"
-sync-ai-policy = "my_project.sync_ai_policy:main"
-sync-ai-policy-import-vscode = "my_project.sync_ai_policy:import_vscode_main"
 
 [tool.poe.tasks]
 lint = "python -m black --check ./src"
 lint-fix = "python -m black ./src"
 typecheck = "python -m pyright ./src"
 test = "python -m pytest"
+sync-ai-policy = "python scripts/sync_ai_policy.py"
+sync-ai-policy-import-vscode = "python scripts/sync_ai_policy.py --import-vscode"
 # --- AI Secure Parameterized Tasks ---
 lint-filter = { help = "Run linter and filter output", shell = "python -m black --check ./src | grep -i -E ${filter_term}", args = [
   { name = "filter_term", positional = true, required = true },
