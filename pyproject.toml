@@ -9,7 +9,7 @@ requires-python = ">=3.14,<4.0"
 dependencies = []
 
 [dependency-groups]
-dev = ["poethepoet>=0.34.0", "pytest>=9.0", "black>=25.1.0", "pyright>=1.1.400"]
+dev = ["poethepoet>=0.34.0", "pytest>=9.0", "black>=25.1.0", "pyright>=1.1.400", "json5>=0.9"]
 
 [build-system]
 requires = ["hatchling"]
@@ -54,3 +54,5 @@ lint-filter = { help = "Run linter and filter output", shell = "python -m black 
 typecheck-filter = { help = "Run typechecker and filter output", shell = "python -m pyright ./src | grep -i -E ${filter_term}", args = [
   { name = "filter_term", positional = true, required = true },
 ] }
+sync-ai = "python scripts/sync_ai_ignores.py"
+sync-ai-import = "python scripts/sync_ai_ignores.py --import-vscode"
