@@ -29,6 +29,11 @@ jobs:
       - name: Install dependencies with uv
         run: uv sync
 
+      - name: Sync AI policy and enforce generated files
+        run: |
+          uv run sync-ai-policy
+          git diff --exit-code -- .aiexclude .claude/settings.json .vscode/settings.json
+
       - name: Run tests
         run: uv run poe test
       - name: Run linting

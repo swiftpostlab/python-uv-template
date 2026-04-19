@@ -34,9 +34,13 @@ All project skills are located in `.agents/skills/` and automatically load in Co
 - Feature-first architecture, strict typing with Pyright, Black formatting, pytest testing
 - Use when: creating features, writing tests, configuring tooling
 
-**`skills-meta`** — Guidelines for creating and maintaining project skills
-- Ensures skills are focused, discoverable, and provider-agnostic
-- Use when: designing new skills or evaluating skill quality
+**`skills-authoring`** — Guidelines for creating and maintaining project skills
+- Ensures skills are focused, discoverable, provider-agnostic, and adapted to the repo's real stack
+- Use when: designing new skills, updating copied skills, or evaluating skill quality
+
+**`tool-adopt-these-skills`** — Adopt this repo's core skills and AI safety tooling in another repository
+- Identifies the highest-value skills to copy first and the AI safety files that must move together
+- Use when: bootstrapping another repo with this repo's agent setup or porting the AI safety workflow elsewhere
 
 ## Workflow
 

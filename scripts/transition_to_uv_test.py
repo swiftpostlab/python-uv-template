@@ -55,3 +55,11 @@ packages = [
         "lib/shared",
         "top_level_package",
     ]
+
+
+def test_convert_version_constraint_handles_poetry_operators() -> None:
+    module = load_transition_module()
+
+    assert module.convert_version_constraint("^2.32.3") == ">=2.32.3,<3.0.0"
+    assert module.convert_version_constraint("~0.28.1") == ">=0.28.1,<0.29.0"
+    assert module.convert_version_constraint("1.2.*") == ">=1.2.0,<1.3.0"
