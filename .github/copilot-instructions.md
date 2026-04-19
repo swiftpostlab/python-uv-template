@@ -77,7 +77,7 @@ When working on this project:
 3. **Implement**: Follow the owning skill for the area you are touching.
 4. **Validate**: Run lint, type-checking, and tests before committing.
 5. **Commit**: Keep commits small and focused.
-6. **Reflect**: If the session exposed missing or stale agent guidance, or surfaced a new lesson worth preserving for future work, update the owning skill and then run a consolidation pass if needed.
+6. **Reflect**: Review what happened in the session, identify both corrections and durable lessons, and decide whether any skill or instruction should be updated. Summarize the result to the user and ask if they want the guidance updated. If yes, update the relevant skill using `skills-authoring`, and after editing suggest a follow-up consolidation pass with `tool-consolidate-skills`.
 
 ## Quick Commands
 
