@@ -16,8 +16,9 @@ Guide understanding of the project's physical organization, central configuratio
 
 ├── ./
 ├── .github/
-│   ├── skills/                 # Custom agent workflow skills
 │   └── copilot-instructions.md # Project guidance for GitHub Copilot
+├── .agents/
+│   └── skills/                 # Custom agent workflow skills
 ├── src/
 │   └── <project_name>/         # Main package (matches pyproject.toml [project].name)
 │       ├── main.py             # CLI entrypoint or main module
@@ -30,7 +31,8 @@ Guide understanding of the project's physical organization, central configuratio
 │   ├── *.py                    # Maintenance scripts
 │   └── *_test.py               # Script tests (optional)
 ├── pyproject.toml              # Central configuration hub for all tools
-└── GEMINI.md                   # Project guidance for Gemini AI
+├── GEMINI.md                   # Provider routing stub for Gemini
+└── CLAUDE.md                   # Provider routing stub for Claude
 ```
 
 ### Key Directories

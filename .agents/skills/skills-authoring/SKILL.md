@@ -18,7 +18,9 @@ Ensure project skills are focused, discoverable, simple to follow, and maintaina
 
 ## References
 
-Use <https://agentskills.io/home> and <https://github.com/anthropics/skills> as references for best practices.
+Use <https://agentskills.io/home> and <https://github.com/anthropics/skills> as reference for best practices.
+
+Use `./references/checklist.md` when reviewing or refactoring a skill, and `./references/template.md` when creating a new one.
 
 ## Values
 
@@ -42,17 +44,18 @@ Use <https://agentskills.io/home> and <https://github.com/anthropics/skills> as 
 - **Supporting files are allowed:** Put long checklists, detailed examples, templates, or helper scripts in subfolders instead of cramming everything into `SKILL.md`.
 - **Relative references only:** Link skill resources from `SKILL.md` with `./references/...`, `./scripts/...`, or `./assets/...` paths.
 - **Keep loading progressive:** Keep `SKILL.md` concise and move large supporting material into subfiles. Prefer one-level-deep references from `SKILL.md`.
-- **One responsibility per skill:** A skill about code conventions should not also cover deployment.
+- **One responsibility per skill.** A skill about code conventions should not also cover deployment.
 - **Frontmatter required:** Every skill must have `name` and `description` in YAML frontmatter.
 - **Name must match folder:** The `name` field must match the skill folder name.
-- **Include a "When to use" section:** Make it obvious when the skill should load.
-- **Use concrete examples:** Provide code snippets or file structures to minimize ambiguity.
+- **"When to use" section:** Include a clear section so the AI can determine relevance.
+- **Concrete examples:** Provide code snippets or file structures to minimize ambiguity.
 - **Provider-agnostic:** No provider-specific features or assumptions. Skills must work with Copilot, Claude, Gemini, and others.
 - **Adapt to the real repo:** When a skill is copied or derived from another project, update its commands, libraries, file names, folder layout, and examples to match this repository before keeping it.
 - **Do not preserve stale stack details:** Remove or replace inherited references to the wrong package manager, framework, language conventions, file extensions, or UI library when they do not match the current repo.
-- **Name repo-specific skills explicitly:** If a skill depends on repo-only packages, workflows, or wrappers that would not transfer cleanly to another project, give it a repo-specific name rather than a generic one.
+- **Name repo-specific skills explicitly:** If a skill depends on repo-only packages, conventions, or wrappers that would not transfer cleanly to another project, prefix or name it in a repo-specific way. Keep transferable guidance under generic names like `code-conventions`, `project-structure-setup`, or `skills-authoring`.
 - **Make values explicit:** When a skill depends on values like simplicity, clarity, or maintainability, state them directly in the purpose or rules instead of leaving them implicit.
 - **Prefer modern defaults:** When a skill gives coding guidance, prefer modern, intention-revealing language and platform APIs over older sentinel-style patterns when both are supported by the project's runtime targets.
+- **Prefer operational labels:** When naming workflow steps or guidance sections, prefer labels that describe the actual review/update action. Favor concrete labels like `Reflect` or `Capture Lessons` over vaguer labels like `Learn` when the step includes reviewing outcomes, correcting guidance, and updating the source of truth.
 
 ## Cross-Platform Parity
 
@@ -94,34 +97,7 @@ If there is no real provider-specific behavior, nothing else needs to be done be
 - Do not sugarcoat technical debt or architectural flaws.
 - If a request is suboptimal, explain why immediately and suggest the correct path.
 
-## Skill Template
+## Reference Files
 
-```markdown
----
-name: my-skill
-description: "Brief description. Use when: trigger condition 1, trigger condition 2."
-argument-hint: "Optional slash-command hint"
----
-
-# Skill Title
-
-## Purpose
-
-One-sentence description of what this skill enforces.
-
-## When to use this skill
-
-- Trigger condition 1.
-- Trigger condition 2.
-
-## Rules
-
-- Rule 1 with rationale.
-- Rule 2 with rationale.
-
-## Examples
-
-```md
-<!-- Concrete example -->
-```
-```
+- Use `./references/checklist.md` to review whether a skill is focused, discoverable, and adapted to the real repo.
+- Use `./references/template.md` as the default scaffold for new skills.

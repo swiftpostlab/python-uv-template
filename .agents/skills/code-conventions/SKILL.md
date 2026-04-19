@@ -18,11 +18,11 @@ Help the agent work within this project in a way that respects its structure, ty
 ## Project context
 
 - Language: Python
-- Package name: `PACKAGE_NAME`
-- Source layout: `src/PACKAGE_NAME`
+- Package name: `my_project`
+- Source layout: `src/my_project`
 - Feature-first structure:
-  - `src/PACKAGE_NAME/feat1/`
-  - `src/PACKAGE_NAME/feat2/`
+  - `src/my_project/feat1/`
+  - `src/my_project/feat2/`
   - Each feature keeps its code and tests close together.
 - Tooling:
   - Hatch for packaging
@@ -34,7 +34,7 @@ Help the agent work within this project in a way that respects its structure, ty
 
 ## When to use this skill
 
-- Creating or updating features under `src/PACKAGE_NAME/<feature_name>/`.
+- Creating or updating features under `src/my_project/<feature_name>/`.
 - Adding or updating tests for a feature.
 - Creating CLI entrypoints or tasks.
 - Adjusting project configuration related to Pyright, Black, pytest, or Poe tasks.
@@ -42,12 +42,12 @@ Help the agent work within this project in a way that respects its structure, ty
 ## Structure and file placement
 
 - Use a **feature-first** approach:
-  - Group related code under `src/PACKAGE_NAME/<feature_name>/`.
+  - Group related code under `src/my_project/<feature_name>/`.
   - If a feature is self-contained, put its unit tests in the same feature folder, e.g.:
-    - `src/PACKAGE_NAME/feature/feature.py`
-    - `src/PACKAGE_NAME/feature/feature_test.py`
+    - `src/my_project/feature/feature.py`
+    - `src/my_project/feature/feature_test.py`
 - Example of a feature structure
-  - `src/PACKAGE_NAME/feature/`
+  - `src/my_project/feature/`
     - `main.py`
     - `main_test.py`
     - `types.py` (optional, may contain additional types used in the feature)
@@ -95,10 +95,10 @@ Help the agent work within this project in a way that respects its structure, ty
 
 - When a file is meant to be run from the command line:
   - Prefer `[project.scripts]` for Python entrypoints whenever the command belongs to the installed project.
-  - For packaged application code under `src/PACKAGE_NAME`, expose a clear function (e.g. `main()`) and register it in `[project.scripts]`.
-  - For standalone maintenance or repository scripts that already live in `scripts/`, keep them there unless the user explicitly asks to promote them into `src/PACKAGE_NAME`.
+  - For packaged application code under `src/my_project`, expose a clear function (e.g. `main()`) and register it in `[project.scripts]`.
+  - For standalone maintenance or repository scripts that already live in `scripts/`, keep them there unless the user explicitly asks to promote them into `src/my_project`.
   - For those standalone `scripts/` utilities, `if __name__ == "__main__":` is acceptable.
-  - Ask explicitly before moving an existing script into `src/PACKAGE_NAME` or changing how the user runs it.
+  - Ask explicitly before moving an existing script into `src/my_project` or changing how the user runs it.
 - If the script is not simple Python or better modeled as a task:
   - Add it under `[tool.poe.tasks]` with an appropriate name.
   - Keep Poe as a fallback for orchestration or shell-like commands that do not fit cleanly into `[project.scripts]`.

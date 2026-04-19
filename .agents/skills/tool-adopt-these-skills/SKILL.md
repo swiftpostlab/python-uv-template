@@ -10,6 +10,8 @@ argument-hint: "Target repo context and whether to adopt the full skill system, 
 
 Help an agent move the most valuable reusable guidance from this repository into another repository without copying project-specific details blindly.
 
+Use [the adoption checklist](./references/checklist.md) before finishing the transplant.
+
 ## When to use this skill
 
 - Setting up a new repository with the same AI workflow structure.
@@ -36,6 +38,15 @@ If the user has not made the target clear, ask which mode they want and whether 
 - or only selected reusable skills.
 
 Treat this as a small interactive decision step. Choose the mode first, then give only the relevant transplant guidance.
+
+## Top-Level Instructions: Personality Export
+
+When this skill tells an agent to export or transplant the repo's top-level instructions into another repo, the `## Personality` section from `.github/copilot-instructions.md` should be exported verbatim, not paraphrased.
+
+- Keep the personality text exactly as written unless the user explicitly asks to rewrite it.
+- Treat this as intentional author voice, not incidental wording to be normalized.
+- Adapt surrounding repo-specific workflow, commands, file paths, and stack references as needed, but do not silently rewrite the personality block during adoption.
+- If the target repo wants a different personality, ask or state that this is a deliberate deviation from the source template rather than folding it into a generic rewrite.
 
 ## Recommended Skills By Mode
 
@@ -93,9 +104,11 @@ If the target repo does not use Python or `uv`, adapt the sync invocation to its
 2. Copy the essential skill folders.
    - Start with `skills-authoring`, then `agent-behavior`, `code-conventions`, and `ai-safety` as needed.
    - Keep each skill in its own folder under `.agents/skills/` with a `SKILL.md` file.
+   - If copying the top-level instructions, copy the source `## Personality` section verbatim before adapting the rest of the document.
 3. Rewrite project-specific guidance.
    - Replace package names, folder examples, commands, and version numbers with values that fit the target repo.
    - Remove instructions that only make sense in this repository.
+   - Do not paraphrase the copied `## Personality` section unless the user explicitly wants a different one.
 4. Adopt AI safety as a system, not as isolated files.
    - Copy the policy file, sync script, generated outputs, and instruction-file guidance together.
    - Update protected and excluded patterns to match the target repo's real secrets and noise.
@@ -124,6 +137,7 @@ Do not copy repo-specific skills unchanged into another repo. Treat them as exam
 - Do not copy this repo's exact protected-file patterns into another repo without review.
 - Do not copy Python- or `uv`-specific command advice into a non-Python repo.
 - Do not copy skill text verbatim when it references `src/my_project`, repo-specific scripts, or tooling the target repo does not use.
+- If the top-level instructions are copied, preserve the source `## Personality` section verbatim unless the user explicitly requests a different personality.
 - If copied guidance mentions the wrong package manager, library, framework, or file convention, treat that as stale content to be rewritten, not preserved.
 - If the user wants a full Python UV starter and the target is greenfield, recommend this repo directly instead of reconstructing it skill by skill.
 - Prefer adapting a small set of high-value skills first over copying every skill folder.
@@ -141,6 +155,7 @@ git diff --exit-code -- .aiexclude .claude/settings.json .vscode/settings.json
 
 - The target repo has a minimal, coherent set of skills instead of a bulk copy of unrelated ones.
 - Top-level instruction files and skills agree on the default workflow.
+- The exported instruction system preserves the source repo's `## Personality` section verbatim unless the user requested a rewrite.
 - AI safety files use the target repo's actual secret/noise patterns.
 - The sync command and CI drift check work in the target repo.
 - Project-specific placeholders from this repo have been removed.

@@ -10,6 +10,8 @@ argument-hint: "What guidance should be consolidated?"
 
 Keep project guidance simple, discoverable, and maintainable by giving each rule one clear home. Use `copilot-instructions.md` for always-on repo rules and routing. Use skills for domain-specific guidance. Use skill subfiles for large supporting material.
 
+Use [the consolidation checklist](./references/checklist.md) after restructuring skills or top-level instructions.
+
 ## When to use this skill
 
 - Reducing duplication across `.agents/skills/`.
@@ -44,7 +46,7 @@ Keep project guidance simple, discoverable, and maintainable by giving each rule
 
 - If a rule applies to most work in the repo, keep it in `copilot-instructions.md`.
 - If a rule is specific to a domain like styling, Next.js, or code conventions, move it into that skill.
-- If a skill is reusable across many projects, keep its name generic. If it depends on repo-only packages or workflows, give it a repo-specific name.
+- If a skill is reusable across many projects, keep its name generic. If it depends on repo-only packages or wrappers, use repo-specific naming.
 - If copied guidance mentions the wrong package manager, library, framework, or file extension, treat that as stale content to be rewritten, not preserved.
 - If a skill is getting long, split detailed material into [reference files](./references/checklist.md) or other subfiles.
 - If ownership is unclear, ask which file should be the source of truth before duplicating the rule.
