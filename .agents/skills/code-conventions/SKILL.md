@@ -123,6 +123,8 @@ When proposing changes, the agent should keep these commands in mind:
 - `uv run poe lint-fix` → format code with Black.
 - `uv run poe typecheck` → run Pyright on `./src`.
 
+Prefer the Poe tasks above as the standard validation entrypoints. Use raw `pytest`, `black`, or `pyright` only when there is a concrete need for direct tool behavior, focused flags, or debugging that the Poe task does not expose.
+
 ## General guidance for the agent
 
 - Prefer small, incremental changes aligned with the feature-first layout.

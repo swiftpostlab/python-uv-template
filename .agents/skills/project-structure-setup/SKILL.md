@@ -94,6 +94,8 @@ typecheck = "python -m pyright ./src"
 - Complex shell orchestration
 - Commands that shouldn't be distributed with the package
 
+For this repo, treat the Poe validation tasks as the default entrypoints for day-to-day checks. Reach for the underlying tool directly only when you specifically need flags or behavior that the task wrapper does not provide.
+
 **When NOT to use:** If the command should be invoked as an installed Python entrypoint, define it in `[project.scripts]` instead.
 
 #### `[tool.pyright]`
@@ -121,6 +123,8 @@ packages = ["src/my_project", "scripts"]
 Tells the build system which folders are included in the wheel when installed entrypoints need code from them.
 
 ## Tool Command Reference
+
+Prefer these commands over calling the underlying tools directly during normal work. For example, use `uv run poe test` instead of raw `pytest` unless you need focused pytest flags for debugging.
 
 | Tool | Command | Via | Purpose |
 |------|---------|-----|---------|
