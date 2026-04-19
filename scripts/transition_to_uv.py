@@ -118,14 +118,12 @@ def delete_if_exists(path: Path) -> None:
         print(f"Deleted {path.name}")
 
 
-def main() -> None:
-    pyproject = ROOT / "pyproject.toml"
-    if not pyproject.exists():
-        print(f"Error: {pyproject} not found", file=sys.stderr)
-        sys.exit(1)
+    # kept for backwards compatibility; prefer using `main()` below
+    return
 
-    content = pyproject.read_text(encoding="utf-8")
 
+def migrate_pyproject_content(content: str) -> str:
+    """Perform the migration transforms on a pyproject.toml content string and return the new content."""
     packages = extract_poetry_packages(content)
 
     content = remove_section(content, "tool.poetry.requires-plugins")
@@ -136,24 +134,68 @@ def main() -> None:
     content = add_poethepoet_to_dev(content)
     content = remove_script_key(content, "transition-to-uv")
 
-    pyproject.write_text(content, encoding="utf-8")
-    print("pyproject.toml migrated to uv.")
+    return content
 
-    delete_if_exists(ROOT / "poetry.lock")
-    delete_if_exists(ROOT / "poetry.toml")
+
+def main(argv: list[str] | None = None) -> int:
+    """CLI entrypoint. Defaults to operating on `pyproject.toml` in the repo root.
+
+    Args:
+        argv: Optional list of command-line arguments for testing.
+
+    Returns:
+        Exit code (0 on success).
+    """
+    from argparse import ArgumentParser
+
+    parser = ArgumentParser(description="Migrate pyproject.toml from Poetry to uv.")
+    parser.add_argument(
+        "--input",
+        "-i",
+        default=str(ROOT / "pyproject.toml"),
+        help="Path to the input pyproject.toml",
+    )
+    parser.add_argument(
+        "--output",
+        "-o",
+        default=None,
+        help="Path to write the migrated pyproject.toml (defaults to input path)",
+    )
+    parser.add_argument(
+        "--no-delete",
+        action="store_true",
+        help="Don't delete poetry.lock or poetry.toml (useful for tests)",
+    )
+
+    args = parser.parse_args(argv)
+
+    input_path = Path(args.input)
+    if not input_path.exists():
+        print(f"Error: {input_path} not found", file=sys.stderr)
+        return 1
+
+    content = input_path.read_text(encoding="utf-8")
+    new_content = migrate_pyproject_content(content)
+
+    output_path = Path(args.output) if args.output else input_path
+    output_path.write_text(new_content, encoding="utf-8")
+    print(f"{output_path.name} migrated to uv.")
+
+    if not args.no_delete:
+        delete_if_exists(ROOT / "poetry.lock")
+        delete_if_exists(ROOT / "poetry.toml")
 
     print("Update complete. ⚠️ Please review changes.")
+    print(
+        "Next steps:\n"
+        "1. Remove .venv and this migration script.\n"
+        "2. Run 'uv sync' to install dependencies and generate the new lockfile.\n"
+        "3. Review changes, test your project to ensure everything works as expected.\n"
+        "4. Commit the changes with a message like 'chore: Migrate from Poetry to uv'."
+    )
 
-    print("Next steps:\n"
-          "1. Remove .venv and this migration script.\n"
-          "2. Run 'uv sync' to install dependencies and generate the new lockfile.\n"
-          "3. Review changes, test your project to ensure everything works as expected.\n"
-          "4. Commit the changes with a message like 'chore: Migrate from Poetry to uv'."
-          )
-
-    
-
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
