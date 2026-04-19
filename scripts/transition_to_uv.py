@@ -42,21 +42,34 @@ def update_build_system(content: str) -> str:
 
 def extract_poetry_packages(content: str) -> list[str]:
     """Extract package paths from the [tool.poetry] packages key."""
+    section_match = re.search(
+        r"^\[tool\.poetry\]\s*(.*?)(?=^\[|\Z)",
+        content,
+        flags=re.MULTILINE | re.DOTALL,
+    )
+    if section_match is None:
+        return []
+
+    packages_match = re.search(
+        r"packages\s*=\s*\[(.*?)\]",
+        section_match.group(1),
+        flags=re.DOTALL,
+    )
+    if packages_match is None:
+        return []
+
     packages: list[str] = []
-    in_poetry = False
-    for line in content.splitlines():
-        stripped = line.strip()
-        if stripped == "[tool.poetry]":
-            in_poetry = True
-        elif in_poetry and stripped.startswith("["):
-            break
-        elif in_poetry and "packages" in stripped:
-            for m in re.finditer(
-                r'\{\s*include\s*=\s*"([^"]+)"(?:,\s*from\s*=\s*"([^"]+)")?\s*\}',
-                stripped,
-            ):
-                name, from_dir = m.group(1), m.group(2)
-                packages.append(f"{from_dir}/{name}" if from_dir else name)
+    for package_match in re.finditer(r"\{(.*?)\}", packages_match.group(1), re.DOTALL):
+        package_config = package_match.group(1)
+        include_match = re.search(r'include\s*=\s*"([^"]+)"', package_config)
+        if include_match is None:
+            continue
+
+        from_match = re.search(r'from\s*=\s*"([^"]+)"', package_config)
+        package_name = include_match.group(1)
+        from_dir = from_match.group(1) if from_match is not None else None
+        packages.append(f"{from_dir}/{package_name}" if from_dir else package_name)
+
     return packages
 
 
@@ -116,10 +129,6 @@ def delete_if_exists(path: Path) -> None:
     if path.exists():
         path.unlink()
         print(f"Deleted {path.name}")
-
-
-    # kept for backwards compatibility; prefer using `main()` below
-    return
 
 
 def migrate_pyproject_content(content: str) -> str:
