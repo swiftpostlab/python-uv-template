@@ -6,7 +6,7 @@ description: "Project context and guidance for GitHub Copilot working on this re
 
 Use this file for always-on repository rules and routing. Keep domain-specific detail in the skills under `.agents/skills/`.
 
-This file is the source of truth for repo guidance. `GEMINI.md` and `CLAUDE.md` should normally stay as thin reference stubs that route back here.
+This file is the source of truth for repo guidance. `GEMINI.md` and `.claude/CLAUDE.md` should normally stay as thin reference stubs that route back here.
 
 ## Personality
 

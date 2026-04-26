@@ -84,7 +84,7 @@ If the target repo wants the same protected-file and exclusion workflow, copy an
 - `.aiexclude` — generated exclusion file.
 - `.claude/settings.json` — generated protected read rules for Claude.
 - `.vscode/settings.json` — generated protected file associations and approval maps for Copilot.
-- `.github/copilot-instructions.md`, `GEMINI.md`, and `CLAUDE.md` — behavioral enforcement layer that tells agents how to respect the policy.
+- `.github/copilot-instructions.md`, `GEMINI.md`, and `.claude/CLAUDE.md` — behavioral enforcement layer that tells agents how to respect the policy.
 
 The target repo should also copy the corresponding command wiring:
 
