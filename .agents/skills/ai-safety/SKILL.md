@@ -32,7 +32,7 @@ Document how AI agents are prevented from accessing sensitive files, how noisy/g
     │       ├── .claude/settings.json      → permissions.deny with protected Read() patterns
     │       └── .vscode/settings.json      → protected file associations + command/edit guardrails
     │
-    └── .github/copilot-instructions.md    ← Behavioral directive (all agents via CLAUDE.md/GEMINI.md)
+    └── .github/copilot-instructions.md    ← Behavioral directive (all agents via `.claude/CLAUDE.md` and `GEMINI.md`)
 ```
 
 ## Protected vs Excluded
@@ -44,8 +44,8 @@ Document how AI agents are prevented from accessing sensitive files, how noisy/g
 
 | Agent | File-Level Restriction | Behavioral Instruction |
 |-------|----------------------|----------------------|
-| **Gemini** | Generated `.aiexclude` (protected + excluded patterns) | GEMINI.md → copilot-instructions.md |
-| **Claude Code** | `.claude/settings.json` `permissions.deny` with protected `Read()` patterns | CLAUDE.md → copilot-instructions.md |
+| **Gemini** | Generated `.aiexclude` (protected + excluded patterns) | `GEMINI.md` → `@.github/copilot-instructions.md` |
+| **Claude Code** | `.claude/settings.json` `permissions.deny` with protected `Read()` patterns | `.claude/CLAUDE.md` → `@.github/copilot-instructions.md` |
 | **GitHub Copilot** | `.vscode/settings.json` protected file deterrent plus command/edit guardrails | `.github/copilot-instructions.md` security directive |
 
 ### Copilot Limitation
@@ -74,6 +74,8 @@ The script reads `.ai-policy.json` and writes:
 - `.aiexclude` — protected + excluded patterns for Gemini/native exclusion
 - `.claude/settings.json` — `permissions.deny` array with `Read(<pattern>)` entries for protected files
 - `.vscode/settings.json` — protected `files.associations`, `github.copilot.enable`, and generated terminal/edit rules
+
+Keep `.aiexclude` at the repo root. Do not move it under `.gemini/`. Gemini CLI's `.geminiignore` is a different feature with a different file name and purpose.
 
 The command/edit policy is kept at the top level of `.ai-policy.json`. The script does not carry built-in approval defaults. It writes the managed approval sections from the policy so the generated files stay aligned with the source of truth instead of accumulating stale template-era rules.
 

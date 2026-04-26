@@ -12,7 +12,7 @@ Use this checklist when creating, reviewing, or refactoring a skill.
 - Does `SKILL.md` stay concise, with long checklists, templates, or examples moved into `references/`, `assets/`, or `scripts/`?
 - Are all links to supporting files relative `./references/...`, `./assets/...`, or `./scripts/...` paths?
 - Does the skill avoid provider-specific assumptions unless a real platform-specific exception is required?
-- If provider files are mentioned, does the skill preserve the reference-first pattern where `.github/copilot-instructions.md` is the source of truth and `GEMINI.md` / `CLAUDE.md` are thin stubs by default?
+- If provider files are mentioned, does the skill preserve the reference-first pattern where `.github/copilot-instructions.md` is the source of truth and `GEMINI.md` / `.claude/CLAUDE.md` are thin stubs by default?
 - Are workflow labels concrete and operational instead of vague?
 
 Typical fixes:

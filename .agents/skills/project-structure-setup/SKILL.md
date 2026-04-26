@@ -32,7 +32,8 @@ Guide understanding of the project's physical organization, central configuratio
 │   └── *_test.py               # Script tests (optional)
 ├── pyproject.toml              # Central configuration hub for all tools
 ├── GEMINI.md                   # Provider routing stub for Gemini
-└── CLAUDE.md                   # Provider routing stub for Claude
+└── .claude/
+   └── CLAUDE.md               # Provider routing stub for Claude
 ```
 
 ### Key Directories

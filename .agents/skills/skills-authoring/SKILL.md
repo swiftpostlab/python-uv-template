@@ -65,19 +65,20 @@ Keep instructions consistent across all platform-specific files:
 |------|----------|
 | `.github/copilot-instructions.md` | GitHub Copilot |
 | `GEMINI.md` | Google Gemini |
-| `CLAUDE.md` | Anthropic Claude |
+| `.claude/CLAUDE.md` | Anthropic Claude |
 
 The Copilot instructions file is the source of truth.
 
 Default pattern for this repo and most repos:
 
 - Put the real guidance in `.github/copilot-instructions.md`.
-- Make `GEMINI.md` and `CLAUDE.md` thin reference files that tell the agent to read the Copilot instructions first.
+- Make `GEMINI.md` and `.claude/CLAUDE.md` thin reference files that import the Copilot instructions directly.
+- Prefer repo-root `@.github/...` imports over relative `@./...` or `@../...` imports so the entry-point stubs do not depend on folder depth.
 - Do not duplicate the same workflow, commands, or policy text across all three files when a reference is enough.
 
 Cross-platform parity means the effective guidance should match across providers, not that every file must contain the same amount of text.
 
-Only add provider-specific text in `GEMINI.md` or `CLAUDE.md` when there is a real platform-specific need, such as:
+Only add provider-specific text in `GEMINI.md` or `.claude/CLAUDE.md` when there is a real platform-specific need, such as:
 
 - a required bootstrap instruction that must appear in that provider's entry file,
 - a provider-specific limitation or capability that changes how the repo must be operated,
