@@ -24,6 +24,22 @@ uv sync
 
 After this step you may want to close and reopen your terminal or IDE to ensure that the uv-managed virtual environment is activated correctly.
 
+## Initialize a project
+
+Run the initializer through uv so it uses the managed environment and the registered entrypoint:
+
+```sh
+uv run init-project
+```
+
+You can also pass the name directly:
+
+```sh
+uv run init-project --name cool-app
+```
+
+The initializer validates the project name, renames `src/my_project` to the underscore form, and updates `pyproject.toml` accordingly.
+
 ## Tests
 
 ```sh

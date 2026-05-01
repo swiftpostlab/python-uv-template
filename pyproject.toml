@@ -46,6 +46,7 @@ reportUnknownModuleType = "warning"
 reportUnnecessaryTypeIgnoreComment = "warning"
 
 [project.scripts]
+init-project = "scripts.init_project:main"
 main = "my_project.main:main"
 sync-ai-policy = "scripts.sync_ai_policy:main"
 sync-ai-policy-import-vscode = "scripts.sync_ai_policy:import_vscode_main"
