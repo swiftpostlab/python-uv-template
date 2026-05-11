@@ -3,15 +3,34 @@
 
 import argparse
 from collections.abc import Callable, Sequence
+from dataclasses import dataclass
 import keyword
 from pathlib import Path
 import re
+import subprocess
 import sys
 import tomllib
 
 ROOT = Path(__file__).resolve().parent.parent
 TEMPLATE_PACKAGE_NAME = "my_project"
 VALID_PROJECT_NAME_PATTERN = re.compile(r"^[A-Za-z][A-Za-z0-9_-]*$")
+VALID_EMAIL_PATTERN = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+
+
+@dataclass(frozen=True)
+class AuthorDetails:
+    """Author metadata to write into pyproject.toml."""
+
+    name: str
+    email: str
+
+
+@dataclass(frozen=True)
+class AuthorPromptDefaults:
+    """Suggested author values for the interactive prompt."""
+
+    name: str | None
+    email: str | None
 
 
 def project_name_to_package_name(project_name: str) -> str:
@@ -37,6 +56,127 @@ def normalize_project_name(project_name: str) -> str:
     return normalized_name
 
 
+def normalize_author_name(author_name: str) -> str:
+    """Normalize and validate an author full name."""
+    normalized_name = " ".join(author_name.split())
+    if not normalized_name:
+        raise ValueError("Author name cannot be empty.")
+
+    if len(normalized_name.split(" ")) < 2:
+        raise ValueError("Author name must include at least a name and surname.")
+
+    return normalized_name
+
+
+def normalize_author_email(author_email: str) -> str:
+    """Normalize and validate an author email."""
+    normalized_email = author_email.strip()
+    if not normalized_email:
+        raise ValueError("Author email cannot be empty.")
+
+    if VALID_EMAIL_PATTERN.fullmatch(normalized_email) is None:
+        raise ValueError("Author email must be a valid email address.")
+
+    return normalized_email
+
+
+def get_git_config_value(key: str) -> str | None:
+    """Read a git configuration value if available."""
+    try:
+        result = subprocess.run(
+            ["git", "config", "--get", key],
+            capture_output=True,
+            check=False,
+            cwd=ROOT,
+            text=True,
+        )
+    except OSError:
+        return None
+
+    value = result.stdout.strip()
+    return value or None
+
+
+def get_git_author_defaults() -> AuthorPromptDefaults:
+    """Read suggested author details from local git configuration."""
+    return AuthorPromptDefaults(
+        name=get_git_config_value("user.name"),
+        email=get_git_config_value("user.email"),
+    )
+
+
+def prompt_for_yes_no(
+    question: str,
+    default: bool,
+    input_func: Callable[[str], str] = input,
+    output_func: Callable[[str], None] = print,
+) -> bool:
+    """Prompt until the user provides a yes/no answer."""
+    prompt_suffix = "[Y/n]" if default else "[y/N]"
+    while True:
+        answer = input_func(f"{question} {prompt_suffix}: ").strip().lower()
+        if not answer:
+            return default
+        if answer in {"y", "yes"}:
+            return True
+        if answer in {"n", "no"}:
+            return False
+
+        output_func("Please answer yes or no.")
+
+
+def prompt_for_validated_value(
+    prompt_label: str,
+    validator: Callable[[str], str],
+    suggested_value: str | None = None,
+    input_func: Callable[[str], str] = input,
+    output_func: Callable[[str], None] = print,
+) -> str:
+    """Prompt until the user provides a valid value or accepts a suggestion."""
+    suggestion_suffix = f" [{suggested_value}]" if suggested_value is not None else ""
+    prompt = f"{prompt_label}{suggestion_suffix}: "
+
+    while True:
+        raw_value = input_func(prompt)
+        candidate_value = raw_value.strip() or suggested_value or raw_value
+        try:
+            return validator(candidate_value)
+        except ValueError as exc:
+            output_func(f"Invalid {prompt_label.lower()}: {exc}")
+
+
+def prompt_for_author_details(
+    defaults: AuthorPromptDefaults,
+    input_func: Callable[[str], str] = input,
+    output_func: Callable[[str], None] = print,
+) -> AuthorDetails | None:
+    """Prompt for optional author metadata."""
+    should_set_author = prompt_for_yes_no(
+        "Set author name and email in pyproject.toml?",
+        default=True,
+        input_func=input_func,
+        output_func=output_func,
+    )
+    if not should_set_author:
+        return None
+
+    author_name = prompt_for_validated_value(
+        "Author name and surname",
+        normalize_author_name,
+        suggested_value=defaults.name,
+        input_func=input_func,
+        output_func=output_func,
+    )
+    author_email = prompt_for_validated_value(
+        "Author email",
+        normalize_author_email,
+        suggested_value=defaults.email,
+        input_func=input_func,
+        output_func=output_func,
+    )
+    return AuthorDetails(name=author_name, email=author_email)
+
+
 def prompt_for_project_name(
     input_func: Callable[[str], str] = input,
     output_func: Callable[[str], None] = print,
@@ -60,6 +200,24 @@ def format_array(items: list[str]) -> str:
         return "[]"
 
     return "[\n" + "".join(f'    "{item}",\n' for item in items) + "]"
+
+
+def format_toml_basic_string(value: str) -> str:
+    """Format a TOML basic string with minimal escaping."""
+    escaped_value = value.replace("\\", "\\\\").replace('"', '\\"')
+    return f'"{escaped_value}"'
+
+
+def format_authors(authors: list[AuthorDetails]) -> str:
+    """Format project authors as a TOML inline-table array."""
+    formatted_authors = ", ".join(
+        "{ "
+        f"name = {format_toml_basic_string(author.name)}, "
+        f"email = {format_toml_basic_string(author.email)}"
+        " }"
+        for author in authors
+    )
+    return f"[{formatted_authors}]"
 
 
 def set_key_in_section(
@@ -165,7 +323,10 @@ def update_project_scripts(
 
 
 def update_pyproject_content(
-    content: str, old_package_name: str, project_name: str
+    content: str,
+    old_package_name: str,
+    project_name: str,
+    author_details: AuthorDetails | None = None,
 ) -> str:
     """Update pyproject metadata for the chosen project name."""
     normalized_project_name = normalize_project_name(project_name)
@@ -177,6 +338,14 @@ def update_pyproject_content(
         "name",
         f'"{normalized_project_name}"',
     )
+
+    if author_details is not None:
+        updated_content = set_key_in_section(
+            updated_content,
+            "project",
+            "authors",
+            format_authors([author_details]),
+        )
 
     existing_packages = get_wheel_packages(updated_content)
     updated_packages = [
@@ -243,6 +412,7 @@ def replace_package_references_in_tree(
 def initialize_project(
     root: Path,
     project_name: str,
+    author_details: AuthorDetails | None = None,
     old_package_name: str = TEMPLATE_PACKAGE_NAME,
 ) -> tuple[str, str]:
     """Initialize the template repository with a new project name."""
@@ -258,6 +428,7 @@ def initialize_project(
         pyproject_content,
         old_package_name,
         normalized_project_name,
+        author_details=author_details,
     )
 
     package_dir = rename_package_directory(root, old_package_name, new_package_name)
@@ -292,7 +463,12 @@ def main(argv: Sequence[str] | None = None) -> None:
             if args.name is not None
             else prompt_for_project_name()
         )
-        normalized_project_name, package_name = initialize_project(ROOT, project_name)
+        author_details = prompt_for_author_details(get_git_author_defaults())
+        normalized_project_name, package_name = initialize_project(
+            ROOT,
+            project_name,
+            author_details=author_details,
+        )
     except (FileExistsError, FileNotFoundError, ValueError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         raise SystemExit(1) from exc
