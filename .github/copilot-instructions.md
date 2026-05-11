@@ -62,7 +62,7 @@ Project skills are synced into `.agents/skills/` from `.agents/skills.json` and 
 **`ref-skills-authoring`** — Guidelines for creating and maintaining project skills
 - Use when: designing skills, updating copied skills, or evaluating skill quality
 
-**`ref-local-feature-tracking`** — Maintain feature task tracking under `.agents/tasks/`
+**`ref-agents-local-tasks`** — Maintain feature task tracking under `.agents/tasks/`
 - Use when: a task should be tracked as a structured multi-step feature
 
 **`tool-maintain-skills`** — Review and refresh the synced skill set after repo or workflow changes
@@ -100,5 +100,5 @@ Use the Poe validation tasks above as the default way to run tests, lint, and ty
 - For safety config and generated policy files: use `ref-agents-security`.
 - For Python structure, typing, tests, or CLI choices: use `ref-python` and `ref-coding-patterns`.
 - For feature boundaries or folder decisions: use `ref-projects-architecture`.
-- For task tracking under `.agents/tasks/`: use `ref-local-feature-tracking`.
+- For task tracking under `.agents/tasks/`: use `ref-agents-local-tasks`.
 - For skills themselves: use `ref-skills-authoring` and `tool-maintain-skills`.
