@@ -13,7 +13,7 @@ dev = [
   "agentic-tools @ git+https://github.com/swiftpostlab/agentic-tools.git",
   "poethepoet>=0.34.0",
   "pytest>=9.0",
-  "black>=25.1.0",
+  "black>=26.5.0",
   "pyright>=1.1.400",
   "json5>=0.9",
 ]
