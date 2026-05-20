@@ -14,7 +14,7 @@ dev = [
   "poethepoet>=0.46.0",
   "pytest>=9.0",
   "black>=26.5.1",
-  "pyright>=1.1.400",
+  "pyright>=1.1.409",
   "json5>=0.9",
 ]
 
