@@ -4,7 +4,6 @@ from importlib import util
 from pathlib import Path
 from types import ModuleType
 import tomllib
-from typing import cast
 
 import pytest
 
@@ -16,8 +15,7 @@ def load_init_project_module() -> ModuleType:
         raise RuntimeError("Could not load init_project.py")
 
     module = util.module_from_spec(spec)
-    loader = cast(object, spec.loader)
-    exec_module = getattr(loader, "exec_module", None)
+    exec_module = getattr(spec.loader, "exec_module", None)
     if exec_module is None or not callable(exec_module):
         raise RuntimeError("init_project.py loader cannot execute the module")
 
@@ -175,6 +173,43 @@ def test_update_pyproject_content_updates_name_sources_and_entrypoints() -> None
     assert parsed["project"]["scripts"]["init-project"] == "scripts.init_project:main"
     assert parsed["project"]["scripts"]["main"] == "cool_app.main:main"
     assert "sync-ai-policy" not in parsed["project"]["scripts"]
+
+
+def test_update_pyproject_content_rewrites_current_package_paths() -> None:
+    content = """
+[project]
+name = "already-renamed-app"
+authors = [{ name = "Name Surname", email = "email@example.com" }]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/already_renamed_app", "scripts"]
+
+[project.scripts]
+init-project = "scripts.init_project:main"
+main = "already_renamed_app.main:main"
+""".strip() + "\n"
+
+    updated_content = init_project.update_pyproject_content(
+        content,
+        "my_project",
+        "cool-app",
+        author_details=init_project.AuthorDetails(
+            name="Fabio Colella",
+            email="fcole90@gmail.com",
+        ),
+    )
+    parsed = tomllib.loads(updated_content)
+
+    assert parsed["project"]["name"] == "cool-app"
+    assert parsed["project"]["authors"] == [
+        {"name": "Fabio Colella", "email": "fcole90@gmail.com"}
+    ]
+    assert parsed["tool"]["hatch"]["build"]["targets"]["wheel"]["packages"] == [
+        "src/cool_app",
+        "scripts",
+    ]
+    assert parsed["project"]["scripts"]["init-project"] == "scripts.init_project:main"
+    assert parsed["project"]["scripts"]["main"] == "cool_app.main:main"
 
 
 def test_initialize_project_renames_package_and_updates_imports(
